@@ -1,0 +1,71 @@
+@using WebAppCoreMVCCodeFirst._24._03._2023_22.Models
+@model Student
+@{
+    ViewData["Title"] = "Öğrenci Düzenle";
+    Layout = "~/Views/Shared/_MainLayOutView.cshtml";
+}
+
+<div class="container mt-5" style="max-width: 540px;">
+
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-controller="Student" asp-action="Index">Öğrenciler</a>
+            </li>
+            <li class="breadcrumb-item active">Düzenle</li>
+        </ol>
+    </nav>
+
+    <div class="card border shadow-sm rounded-3">
+        <div class="card-body p-4">
+            <h5 class="fw-semibold mb-1">Öğrenci bilgilerini düzenle</h5>
+            <p class="text-muted small mb-4">Bilgileri güncelleyip kaydedin.</p>
+
+            <form method="post" asp-controller="Student" asp-action="updateSaveStudent">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="StudentdsID" value="@Model.StudentdsID" />
+
+                <div class="mb-3">
+                    <label class="form-label small text-muted">Öğrenci no</label>
+                    <input type="text" name="StudentdsNo" value="@Model.StudentdsNo" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small text-muted">Ad</label>
+                    <input type="text" name="StudentdsName" value="@Model.StudentdsName" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small text-muted">Soyad</label>
+                    <input type="text" name="StudentdsSurname" value="@Model.StudentdsSurname" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small text-muted">E-posta</label>
+                    <input type="email" name="EMail" value="@Model.EMail" class="form-control" />
+                </div>
+                <div class="mb-4">
+                    <label class="form-label small text-muted">Departman</label>
+                    <select name="DepartmentID" class="form-select">
+                        @foreach (var dept in ViewBag.Departments)
+                        {
+                            if (dept.DeptID == Model.DepartmentID)
+                            {
+                                <option value="@dept.DeptID" selected>@dept.DeptName</option>
+                            }
+                            else
+                            {
+                                <option value="@dept.DeptID">@dept.DeptName</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-pencil"></i> Güncelle
+                    </button>
+                    <a asp-controller="Student" asp-action="Index" class="btn btn-outline-secondary">İptal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

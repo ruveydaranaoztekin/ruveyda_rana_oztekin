@@ -1,0 +1,77 @@
+@using WebAppCoreMVCCodeFirst._24._03._2023_22.Models
+@model List<Student>
+@{
+    ViewData["Title"] = "Öğrenci Yönetimi";
+    Layout = "~/Views/Shared/_MainLayOutView.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+            <p class="text-muted small text-uppercase mb-1" style="letter-spacing:0.05em;">Yönetim paneli</p>
+            <h2 class="fw-semibold mb-0">Öğrenci yönetimi</h2>
+            <p class="text-muted mb-0">Sistemdeki tüm öğrencileri buradan yönetebilirsiniz.</p>
+        </div>
+        <a asp-controller="Student" asp-action="newStudent" class="btn btn-outline-primary d-flex align-items-center gap-2">
+            <i class="bi bi-plus-lg"></i> Yeni öğrenci
+        </a>
+    </div>
+
+    <div class="card border shadow-sm rounded-3">
+        @if (Model == null || !Model.Any())
+        {
+            <div class="text-center py-5 text-muted">
+                <i class="bi bi-people fs-1 d-block mb-2"></i>
+                Henüz kayıtlı öğrenci bulunmuyor.
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4 py-3 text-muted fw-normal small">Öğrenci no</th>
+                            <th class="py-3 text-muted fw-normal small">Ad soyad</th>
+                            <th class="py-3 text-muted fw-normal small">E-posta</th>
+                            <th class="py-3 text-muted fw-normal small">Departman</th>
+                            <th class="text-end pe-4 py-3 text-muted fw-normal small">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var x in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 text-muted small">@x.StudentdsNo</td>
+                                <td class="fw-semibold">@x.StudentdsName @x.StudentdsSurname</td>
+                                <td class="text-muted">@x.EMail</td>
+                                <td>
+                                    @if (x.Department != null)
+                                    {
+                                        <span class="badge bg-primary bg-opacity-10 text-primary fw-normal">
+                                            @x.Department.DeptName
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small">Atanmamış</span>
+                                    }
+                                </td>
+                                <td class="text-end pe-4">
+                                    <a asp-controller="Student" asp-action="detailStudent" asp-route-id="@x.StudentdsID"
+                                       class="btn btn-sm btn-outline-secondary me-1">Detay</a>
+                                    <a asp-controller="Student" asp-action="updateStudent" asp-route-id="@x.StudentdsID"
+                                       class="btn btn-sm btn-outline-warning me-1">Düzenle</a>
+                                    <a asp-controller="Student" asp-action="removeStudent" asp-route-id="@x.StudentdsID"
+                                       class="btn btn-sm btn-outline-danger"
+                                       onclick="return confirm('@x.StudentdsName @x.StudentdsSurname adlı öğrenciyi silmek istediğinizden emin misiniz?');">Sil</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-4 py-2 border-top text-muted small">@Model.Count öğrenci listeleniyor</div>
+        }
+    </div>
+</div>

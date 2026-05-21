@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\WebAppASPNETCoreCodeFirst_31.03.2023.props" />
+</Project>

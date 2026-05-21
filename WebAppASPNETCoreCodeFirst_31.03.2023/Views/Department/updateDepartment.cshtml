@@ -1,0 +1,44 @@
+﻿@model WebAppCoreMVCCodeFirst._24._03._2023_22.Models.Department
+@{
+    ViewData["Title"] = "Departman Düzenle";
+    Layout = "~/Views/Shared/_MainLayOutView.cshtml";
+}
+
+<div class="container mt-5" style="max-width: 540px;">
+
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-controller="Department" asp-action="Index">Departmanlar</a>
+            </li>
+            <li class="breadcrumb-item active">Düzenle</li>
+        </ol>
+    </nav>
+
+    <div class="card border shadow-sm rounded-3">
+        <div class="card-body p-4">
+            <h5 class="fw-semibold mb-1">Departmanı düzenle</h5>
+            <p class="text-muted small mb-4">Departman adını güncelleyip kaydedin.</p>
+
+            @using (Html.BeginForm("updateSaveDepartment", "Department", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.DeptID)  @* ID gizli gönderilsin *@
+
+                <div class="mb-3">
+                    <label class="form-label small text-muted">Departman adı</label>
+                    @Html.TextBoxFor(x => x.DeptName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.DeptName, "", new { @class = "text-danger small" })
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-pencil"></i> Güncelle
+                    </button>
+                    <a asp-controller="Department" asp-action="Index" class="btn btn-outline-secondary">İptal</a>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
